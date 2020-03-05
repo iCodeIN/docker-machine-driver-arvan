@@ -1,7 +1,23 @@
 
-# Docker machine driver for [ArvanCloud](https://www.arvancloud.com/)
 
+# Docker machine driver for [ArvanCloud](https://www.arvancloud.com)
+> This library adds the support for creating [Docker machines](https://github.com/docker/machine) hosted on the [ArvanCloud](https://www.arvancloud.com).
 
+[Click here](https://npanel.arvancloud.com/profile/api-keys) to create an API Token which needs to be put in the `--arvan-api-token` option.
+  
+## Installation
+
+You can find sources and pre-compiled binaries [here](https://github.com/satrobit/docker-machine-driver-arvan/releases).
+
+```bash
+# Download the binary (this example downloads the binary for linux amd64)
+$ wget https://github.com/satrobit/docker-machine-driver-arvan/releases/download/v0.1-alpha/docker-machine-driver-arvan_v0.1-alpha_linux_amd64.tar.gz
+$ tar -xvf docker-machine-driver-arvan_v0.1-alpha_linux_amd64.tar.gz
+
+# Make it executable and copy the binary in a directory accessible with your $PATH
+$ chmod +x docker-machine-driver-arvan
+$ cp docker-machine-driver-arvan /usr/local/bin/
+```
 ## Usage
 
     $ docker-machine create \
