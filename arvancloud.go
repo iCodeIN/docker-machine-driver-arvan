@@ -13,6 +13,19 @@ import (
 // ArvanBaseURL is the Base URL of ArvanCloud ECC Service
 const ArvanBaseURL string = "https://napi.arvancloud.com/ecc/v1/regions"
 
+
+const (
+	GetServerPath = "/servers/%s"
+	UploadSSHKeyPath = "/ssh-keys"
+	RemoveSSHKeyPath = "/ssh-keys/%s"
+	CreateServerPath = "/servers"
+	StartServerPath = "/servers/%s/power-on"
+	StopServerPath = "/servers/%s/power-off"
+	RestartServerPath = "/servers/%s/reboot"
+	RemoveServerPath = "/servers/%s"
+)
+
+
 // Client struct
 type Client struct {
 	APIToken string
@@ -61,6 +74,11 @@ type Server struct {
 	Status    string `json:"status,omitempty"`
 }
 
+func (c *Client) getURL(format string, args ...interface{}) string {
+	url := c.BaseURL + fmt.Sprintf(format, args...)
+	return url
+}
+
 // NewClient returns an API client struct
 func NewClient(apitoken, region string) *Client {
 	return &Client{
@@ -93,8 +111,8 @@ func (c *Client) DoRequest(req *http.Request, status int) ([]byte, error) {
 }
 
 // GetServer returns information about an instance
-func (c *Client) GetServer(serverid string) (*Server, error) {
-	url := c.BaseURL + "/servers/" + serverid
+func (c *Client) GetServer(serverId string) (*Server, error) {
+	url := c.getURL(GetServerPath, serverId)
 
 	req, err := http.NewRequest("GET", url, nil)
 
@@ -120,7 +138,8 @@ func (c *Client) GetServer(serverid string) (*Server, error) {
 
 // UploadSSHKey uploads an SSH key to ArvanCloud
 func (c *Client) UploadSSHKey(sshkey *SSHKey) error {
-	url := c.BaseURL + "/ssh-keys"
+	url := c.getURL(UploadSSHKeyPath)
+
 	j, err := json.Marshal(sshkey)
 	if err != nil {
 		return err
@@ -135,8 +154,9 @@ func (c *Client) UploadSSHKey(sshkey *SSHKey) error {
 }
 
 // RemoveSSHKey removes an SSH key from ArvanCloud
-func (c *Client) RemoveSSHKey(keyid string) error {
-	url := c.BaseURL + fmt.Sprintf("/ssh-keys/%s", keyid)
+func (c *Client) RemoveSSHKey(keyId string) error {
+	url := c.getURL(RemoveSSHKeyPath, keyId)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 
 	if err != nil {
@@ -148,7 +168,8 @@ func (c *Client) RemoveSSHKey(keyid string) error {
 
 // CreateServer creates a server instance and returns the ID
 func (c *Client) CreateServer(server *ServerRequest) (*ServerResponse, error) {
-	url := c.BaseURL + "/servers"
+	url := c.getURL(CreateServerPath)
+
 	j, err := json.Marshal(server)
 	if err != nil {
 		return nil, err
@@ -175,8 +196,9 @@ func (c *Client) CreateServer(server *ServerRequest) (*ServerResponse, error) {
 }
 
 // StartServer starts the instance
-func (c *Client) StartServer(serverid string) error {
-	url := c.BaseURL + fmt.Sprintf("/servers/%s/power-on", serverid)
+func (c *Client) StartServer(serverId string) error {
+	url := c.getURL(StartServerPath, serverId)
+	
 	req, err := http.NewRequest("POST", url, nil)
 
 	if err != nil {
@@ -187,8 +209,9 @@ func (c *Client) StartServer(serverid string) error {
 }
 
 // StopServer stops the instance
-func (c *Client) StopServer(serverid string) error {
-	url := c.BaseURL + fmt.Sprintf("/servers/%s/power-off", serverid)
+func (c *Client) StopServer(serverId string) error {
+	url := c.getURL(StopServerPath, serverId)
+	
 	req, err := http.NewRequest("POST", url, nil)
 
 	if err != nil {
@@ -199,8 +222,9 @@ func (c *Client) StopServer(serverid string) error {
 }
 
 // RestartServer reboots the instance
-func (c *Client) RestartServer(serverid string) error {
-	url := c.BaseURL + fmt.Sprintf("/servers/%s/reboot", serverid)
+func (c *Client) RestartServer(serverId string) error {
+	url := c.getURL(RestartServerPath, serverId)
+	
 	req, err := http.NewRequest("POST", url, nil)
 
 	if err != nil {
@@ -211,8 +235,9 @@ func (c *Client) RestartServer(serverid string) error {
 }
 
 //RemoveServer removes an instance
-func (c *Client) RemoveServer(serverid string) error {
-	url := c.BaseURL + fmt.Sprintf("/servers/%s", serverid)
+func (c *Client) RemoveServer(serverId string) error {
+	url := c.getURL(RemoveServerPath, serverId)
+	
 	req, err := http.NewRequest("DELETE", url, nil)
 
 	if err != nil {
