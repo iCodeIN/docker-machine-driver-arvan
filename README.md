@@ -1,5 +1,3 @@
-
-
 # Docker machine driver for [ArvanCloud](https://www.arvancloud.com)
 > This library adds the support for creating [Docker machines](https://github.com/docker/machine) hosted on the [ArvanCloud](https://www.arvancloud.com).
 
@@ -27,15 +25,15 @@ $ cp docker-machine-driver-arvan /usr/local/bin/
 
 ## Options
 
-| Parameter                    | Env                    |
-| ---------------------------- | ---------------------- |
-| **`--arvan-api-token`**      | `ARVAN_API_TOKEN`      |
-| **`--arvan-image`**          | `ARVAN_IMAGE`          |
-| **`--arvan-region`**         | `ARVAN_REGION`         |
-| **`--arvan-server-flavor`**  | `ARVAN_SERVER_FLAVOR`  |
-| **`--arvan-network`**        | `ARVAN_NETWORK`        |
-| **`--arvan-security-group`** | `ARVAN_SECURITY_GROUP` |
-| **`--arvan-ssh-user`**       | `ARVAN_SSH_USER`       |
+| Parameter                    | Env                    | Description |
+| ---------------------------- | ---------------------- | ----------  |
+| **`--arvan-api-token`**      | `ARVAN_API_TOKEN`      | API Token |
+| **`--arvan-image`**          | `ARVAN_IMAGE`          | The linux image used to create an instance |
+| **`--arvan-region`**         | `ARVAN_REGION`         | The region which the instance is located in |
+| **`--arvan-server-flavor`**  | `ARVAN_SERVER_FLAVOR`  | The flavor (size) used for the instance
+| **`--arvan-network`**        | `ARVAN_NETWORK`        | The network connected to the instances iface |
+| **`--arvan-security-group`** | `ARVAN_SECURITY_GROUP` | Security group used for the instance |
+| **`--arvan-ssh-user`**       | `ARVAN_SSH_USER`       | The SSH username that docker-machine tries to connect to |
 
 ## License
 
