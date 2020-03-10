@@ -20,6 +20,7 @@ const (
 	defaultNetwork       = "fe9645fc-2234-4865-895b-e3bb4bb0eb7b" // Public1
 	defaultSecurityGroup = "771874f3-541e-4693-97ad-d585e78999ef"
 	defaultSSHUser       = "ubuntu"
+	defaultSSHPort       = 22
 )
 
 // Driver struct
@@ -34,6 +35,7 @@ type Driver struct {
 	Network       string
 	SecurityGroup string
 	SSHKeyID      string
+	SSHPort       int
 }
 
 // NewDriver returns a Driver struct
@@ -47,7 +49,6 @@ func NewDriver() *Driver {
 
 		BaseDriver: &drivers.BaseDriver{
 			SSHUser: defaultSSHUser,
-			SSHPort: drivers.DefaultSSHPort,
 		},
 	}
 }
@@ -148,6 +149,15 @@ func (d *Driver) GetSSHUsername() string {
 	}
 
 	return d.SSHUser
+}
+
+// GetSSHPort returns ssh port
+func (d *Driver) GetSSHPort() (int, error) {
+	if d.SSHPort == 0 {
+		d.SSHPort = defaultSSHPort
+	}
+
+	return d.SSHPort, nil
 }
 
 func (d *Driver) getServer() (*Server, error) {
@@ -276,6 +286,12 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Usage:  "SSH username",
 			Value:  defaultSSHUser,
 		},
+		mcnflag.IntFlag{
+			EnvVar: "ARVAN_SSH_PORT",
+			Name:   "arvan-ssh-port",
+			Usage:  "SSH port",
+			Value:  defaultSSHPort,
+		},
 	}
 }
 
@@ -288,6 +304,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	d.Network = flags.String("arvan-network")
 	d.SecurityGroup = flags.String("arvan-security-group")
 	d.SSHUser = flags.String("arvan-ssh-user")
+	d.SSHPort = flags.Int("arvan-ssh-port")
 
 	d.SetSwarmConfigFromFlags(flags)
 

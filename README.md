@@ -34,6 +34,7 @@ $ cp docker-machine-driver-arvan /usr/local/bin/
 | **`--arvan-network`**        | `ARVAN_NETWORK`        | The network connected to the instances iface |
 | **`--arvan-security-group`** | `ARVAN_SECURITY_GROUP` | Security group used for the instance |
 | **`--arvan-ssh-user`**       | `ARVAN_SSH_USER`       | The SSH username that docker-machine tries to connect to |
+| **`--arvan-ssh-port`**       | `ARVAN_SSH_PORT`       | The SSH port that docker-machine tries to connect to |
 
 ## License
 
